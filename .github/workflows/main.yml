@@ -27,4 +27,5 @@ jobs:
           pip install moviepy requests python-dotenv
 
       - name: Run Automation Script
-        run: python instagram_automation.py
+        run: python main.py
+
