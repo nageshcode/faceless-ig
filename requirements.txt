@@ -1,5 +1,5 @@
 requests==2.31.0
 beautifulsoup4==4.12.2
 gTTS==2.3.2
-moviepy==2.0.0.dev10
+moviepy
 lxml==4.9.3
