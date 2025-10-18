@@ -1,16 +1,21 @@
-name: Instagram Automation
+name: Faceless IG Automation
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
-    - cron: '0 10,18 * * *' # Runs at 10 AM & 6 PM daily
+    # Run twice per day: 3:30 AM & 12:30 PM UTC = 9 AM & 6 PM IST
+    - cron: '30 3 * * *'
+    - cron: '30 12 * * *'
 
 jobs:
-  run:
+  run-automation:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -21,12 +26,19 @@ jobs:
       - name: Install FFmpeg
         run: sudo apt-get install -y ffmpeg
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install moviepy==2.1.1
+          pip install imageio imageio-ffmpeg
+          pip install requests beautifulsoup4 gTTS Pillow tqdm
 
+      - name: Verify environment
+        run: |
+          echo "=== Python Info ==="
+          python --version
+          echo "=== Checking MoviePy ==="
+          python -c "from moviepy.editor import VideoFileClip; print('✅ MoviePy working fine')"
 
-      - name: Run Automation Script
+      - name: Run automation
         run: python main.py
-
